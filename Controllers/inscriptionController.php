@@ -12,7 +12,7 @@ function handleRegistration() {
 
         // Valider les données
         if (!$email || !$password || !$nom || !$prenom || !$date_naissance) {
-            $_SESSION['error_message'] = "Veuillez saisir tous les champs.RRRR ";
+            $_SESSION['error_message'] = "Veuillez saisir tous les champs. ";
             header("Location: index.php?action=inscription");
             exit();
         }
@@ -46,7 +46,7 @@ function handleRegistration() {
         $stmt->execute();
         $stmt->close();
 
-        $_SESSION['success_message'] = "Inscription réussie ! Vous pouvez maintenant vous connecter.".$password;
+        $_SESSION['success_message'] = "Inscription réussie ! Vous pouvez maintenant vous connecter.";
         header("Location: index.php");
         exit();
     }
