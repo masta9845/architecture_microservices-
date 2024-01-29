@@ -1,3 +1,6 @@
+/**
+ *DEBUT Validation des champs du formulaire d'inscription
+ */
 $(document).ready(function () {
     $('#inscription-form').submit(function (event) {
         var fields = $('#inscription-form input');
@@ -18,14 +21,17 @@ $(document).ready(function () {
                 } else if (fieldName === 'email' && !isValidEmail(value)) {
                     showError($(this), 'Veuillez saisir une adresse email valide.');
                     event.preventDefault();
-                }else if (fieldName === 'password' && !isValidPassword(value)) {
-                    showError($(this), 'Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule et un caractère spécial.');
-                    event.preventDefault();
-                } else if (fieldName === 'password-confirm' && value !== $('#password').val()) {
-                    showError($(this), 'La confirmation du mot de passe ne correspond pas au mot de passe saisi.');
+                }else if (fieldName === 'date_naissance' && !isValidDateOfBirth(value)) {
+                    showError($(this), 'Veuillez saisir une date de naissance valide au format AAAA/MM/JJ.');
                     event.preventDefault();
                 }else if (fieldName === 'date_naissance' && !isValidDate(value)) {
                     showError($(this), "Vous devez être âgé de 18 ans ou plus.");
+                    event.preventDefault();
+                } else if (fieldName === 'password' && !isValidPassword(value)) {
+                    showError($(this), 'Le mot de passe doit contenir au moins 6 caractères, une majuscule, une minuscule et un caractère spécial.');
+                    event.preventDefault();
+                } else if (fieldName === 'password-confirm' && value !== $('#password').val()) {
+                    showError($(this), 'La confirmation du mot de passe ne correspond pas au mot de passe saisi.');
                     event.preventDefault();
                 } else {
                     hideError($(this));
@@ -53,7 +59,7 @@ $(document).ready(function () {
     }
 
     function isValidName(value) {
-        return /^[a-zA-Z]{5,}$/.test(value);
+        return /^[a-zA-Z\s]{5,}$/.test(value);
     }
 
     function isValidEmail(value) {
@@ -61,6 +67,14 @@ $(document).ready(function () {
         // Cette expression est très simple et peut ne pas couvrir tous les cas possibles
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
     }
+
+    function isValidDateOfBirth(value) {
+        // Format attendu : AAAA/MM/JJ
+        var dateRegex = /^\d{4}\/\d{2}\/\d{2}$/;
+    
+        return dateRegex.test(value);
+    }
+    
 /**
  * Gestion de la date de naissance pour voir si l'utilisateur doit avoir 18 ans
  * @param {*} dateString 
@@ -91,8 +105,68 @@ $(document).ready(function () {
  */
     function isValidPassword(value) {
         // Au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial
-        var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$/;
+        var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{6,}$/;
     
         return passwordRegex.test(value);
+    }
+});
+/**
+ * Fin validation des champs du formulaire d'inscription
+ */
+
+/**
+ * DEBUT de la validation des champs du formulaire de Connexion
+ */
+
+$(document).ready(function () {
+    $('#connexions-form').submit(function (event) {
+        var fields = $('#connexions-form input');
+        fields.each(function () {
+            var fieldName = $(this).attr('name');
+            var value = $(this).val().trim();
+            // Vérification générale de champ vide
+            if (!value) {
+                showError($(this), 'Ce champ est requis.');
+                event.preventDefault();
+            } else {
+                if (fieldName === 'email' && !isValidEmail(value)) {
+                    showError($(this), 'Veuillez saisir une adresse email valide.');
+                    event.preventDefault();
+                }else if (fieldName === 'password' && !isValidPassword(value)) {
+                    showError($(this), 'Le mot de passe doit contenir au moins 6 caractères, une majuscule, une minuscule et un caractère spécial.');
+                    event.preventDefault();
+                }else {
+                    hideError($(this));
+                }
+            }
+        });
+    });
+    function showError(input, message) {
+        var errorElement = input.next('.error');
+
+        if (!errorElement.length) {
+            errorElement = $('<p>').addClass('error');
+            input.after(errorElement);
+        }
+
+        errorElement.text(message);
+    }
+    function isValidEmail(value) {
+        // Utilisez une expression régulière appropriée pour la validation de l'email
+        // Cette expression est très simple et peut ne pas couvrir tous les cas possibles
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    }
+    function isValidPassword(value) {
+        // Au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial
+        var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{6,}$/;
+    
+        return passwordRegex.test(value);
+    }
+
+    function hideError(input) {
+        var errorElement = input.next('.error');
+        if (errorElement.length) {
+            errorElement.remove();
+        }
     }
 });
