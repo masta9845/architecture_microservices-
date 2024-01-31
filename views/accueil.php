@@ -1,8 +1,7 @@
 <?php ob_start(); ?>
 <?php
 // Inclure les fichiers nécessaires
-// SOFIENE 
-// SOFIENE 2
+// 8ofiene 
 include('config.php');
 $conn = new mysqli($dbConfig['host'], $dbConfig['username'], $dbConfig['password'], $dbConfig['dbname']);
 // Fonction pour récupérer les post-its possédés par l'utilisateur
