@@ -1,7 +1,10 @@
 ﻿<?php
-include('config.php'); 
+$servername = 'localhost';
+$username = 'root';
+$password = '';
 
-$conn = new mysqli($dbConfig['host'], $dbConfig['username'], $dbConfig['password'], $dbConfig['dbname']);
+//  On établit la connexion
+$conn = new mysqli($servername, $username, $password);
 
 //   On vérifie la connexion
 if ($conn->connect_error) {
@@ -40,6 +43,7 @@ CREATE TABLE IF NOT EXISTS Postit(
     id_owner INT NOT NULL,
     titre VARCHAR(100) NOT NULL,
     contenu VARCHAR(255) NOT NULL,
+    date_creation DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
     PRIMARY KEY(id_postit),
     CONSTRAINT fk_Postit_id_owner FOREIGN KEY(id_owner) REFERENCES utilisateurs(id_utilisateur)
 )";

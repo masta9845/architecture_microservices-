@@ -1,42 +1,10 @@
 <?php ob_start(); ?>
 <?php
-// Inclure les fichiers nécessaires
-include('config.php');
-$conn = new mysqli($dbConfig['host'], $dbConfig['username'], $dbConfig['password'], $dbConfig['dbname']);
-// Fonction pour récupérer les post-its possédés par l'utilisateur
-function getOwnedPostIts($userId, $conn) {
-    $sql = "SELECT id_postit, titre, contenu FROM Postit WHERE id_owner = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param('i', $userId);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    return $result->fetch_all(MYSQLI_ASSOC);
-}
 
-// Fonction pour récupérer les post-its partagés avec l'utilisateur
-function getSharedPostIts($userId, $conn) {
-    $sql = "SELECT P.id_postit, P.titre, P.contenu, U.nom AS owner_nom, U.prenom AS owner_prenom
-            FROM Postit AS P
-            INNER JOIN Partage AS PR ON P.id_postit = PR.id_postit
-            INNER JOIN utilisateurs AS U ON P.id_owner = U.id_utilisateur
-            WHERE PR.id_user = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param('i', $userId);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    return $result->fetch_all(MYSQLI_ASSOC);
-}
-
-// Vérifier si l'utilisateur est connecté
 if (isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
-
-    // Récupérer les post-its possédés
-    $ownedPostIts = getOwnedPostIts($userId, $conn);
-
-    // Récupérer les post-its partagés
-    $sharedPostIts = getSharedPostIts($userId, $conn);
-
+    $ownedPostIts = json_decode($_GET['postitPos'], true);
+    $sharedPostIts = json_decode($_GET['postitPart'], true);
 ?>
 
 <!DOCTYPE html>
@@ -44,6 +12,10 @@ if (isset($_SESSION['user_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="RUELE Amaury">
+    <meta name="author" content="CASSACA Kilian">
+    <meta name="author" content="RABHI Sofiene">
+    <meta name="author" content="Ridouane OUSMANE DOUDOU">
     <title>Accueil - Vos Post-its</title>
     <link rel="stylesheet" href="public/style.css"> 
 </head>
@@ -53,20 +25,38 @@ if (isset($_SESSION['user_id'])) {
     <div id="acceuil">
             <p>Bienvenue.e</p>
     </div>
+    <div cl>
+        <?php
+            if (isset($_SESSION['success_message'])) {
+                echo '<p class="success">' . $_SESSION['success_message'] . '</p>';
+                unset($_SESSION['success_message']);
+                }
+            if (isset($_SESSION['error_message'])) {
+                echo '<p class="error">' . $_SESSION['error_message'] . '</p>';
+                unset($_SESSION['error_message']);
+                }
+        ?> 
+    </div>
+    <div>
+        <a href="index.php?action=ajout-postits" class="add-button">
+                Ajout de Postits
+                <i class="fa-solid fa-plus"></i>
+        </a>
+    </div>
     <div class="postits-container">
         <div class="postits-section">
             <h2>Vos Post-its Possédés</h2>
             <div class="postit-list">
                 <?php foreach ($ownedPostIts as $postit) : ?>
                     <div class="postit">
-                            <a href="visualiser_postit.php?id=<?= $postit['id_postit'] ?>" class="postit-title">
+                            <a href="index.php?action=visualiser-postits&id=<?= $postit['id_postit'] ?>" class="postit-title">
                                     <?= $postit['titre'] ?>
                             </a>
                             <!-- <p> = substr($postit['contenu'], 0, 10) . '...' ?></p> -->
                             <p style="display: none;" class="postit-content-full">
                                 <?= $postit['contenu']; ?>
                             </p>
-                            <!-- <p>Ajouté le  $postit['date_ajout']; ?></p> -->
+                            <p>Ajouté le <?= $postit['date_creation']; ?></p>
                             <!-- Ajoutez ici des liens pour éditer ou supprimer le post-it -->
                     </div>
                 <?php endforeach; ?>
@@ -77,15 +67,24 @@ if (isset($_SESSION['user_id'])) {
             <h2>Post-its Partagés avec Vous</h2>
             <div class="postit-list">
                 <?php foreach ($sharedPostIts as $postit) : ?>
-                    <div class="postit">
-                        <a href="visualiser_postit.php?id=<?= $postit['id_postit'] ?>" class="postit-title">
+                    <?php if ($postit['id_owner'] == $_SESSION['user_id']) : ?>
+                        <div class="postit">
+                        <a href="index.php?action=visualiser-postits&id=<?= $postit['id_postit'] ?>" class="postit-title">
                                 <?= $postit['titre'] ?>
                         </a>
+                    <?php else : ?>
+                        <div class="postit-pasProprio">
+                        <a href="index.php?action=visualiser-postits&id=<?= $postit['id_postit'] ?>" class="postit-title">
+                                <?= $postit['titre'] ?>
+                        </a>
+                    <?php endif; ?>
+                        
                         <!-- <p> = substr($postit['contenu'], 0, 10) . '...' ?></p> -->
                         <p style="display: none;" class="postit-content-full">
                             <?= $postit['contenu']; ?>
                         </p>
                         <p>Ajouté par <?= $postit['owner_prenom'] . ' ' . $postit['owner_nom']; ?></p>
+                        <p>Ajouté le <?= $postit['date_creation']; ?></p>
                         <!-- Ajoutez ici un lien pour visualiser le post-it -->
                     </div>
                 <?php endforeach; ?>

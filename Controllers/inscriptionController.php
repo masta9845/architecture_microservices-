@@ -1,6 +1,6 @@
 <?php
 // Fonction pour traiter le formulaire d'inscription de l'utilisateur
-function handleRegistration() {
+function fonctionInscription() {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         include('config.php'); // Inclure le fichier de connexion a la base 
         // Récupérer les données du formulaire
@@ -54,7 +54,7 @@ function handleRegistration() {
 
 // Vérifier si l'action est "insert-utilisateur"
 if (isset($_GET['action']) && $_GET['action'] === 'insert-utilisateur') {
-    handleRegistration();
+    fonctionInscription();
 } else {
     // Si l'action n'est pas spécifiée ou n'est pas "insert-utilisateur", rediriger vers la page d'inscription
     header("Location: index.php?action=inscription");

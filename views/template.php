@@ -20,6 +20,11 @@
 <header>
     <nav id="navigation">
         <ul>
+        <?php
+            if (isset($_GET['action'])) {
+                echo '<li><a href="index.php"><i class="fa-solid fa-home"></i> Accueil</a></li>';
+            }
+            ?>
             <li>
                 <a href="index.php?action=deconnect" class="logout-button">
                     D&eacute;connexion

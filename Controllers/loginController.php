@@ -1,6 +1,6 @@
 <?php
 // Fonction pour traiter le formulaire de connexion de l'utilisateur
-function handleLogin() {
+function fonctionConnexion() {
     // Vérifier si le formulaire de connexion a été soumis
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Inclure le fichier de connexion
@@ -42,7 +42,7 @@ function handleLogin() {
         // password_verify(htmlspecialchars($_POST['password']), $u['password'])
         if (!password_verify($password, $hashed_password)) {
             // Le mot de passe est incorrect
-            $_SESSION['error_message'] = "Mot de passe incorrect. Données reçues : " . $password . ", Mot de passe haché : " . $hashed_password;
+            $_SESSION['error_message'] = "Mot de passe incorrect.";
             // $_SESSION['error_message'] = "Mot de passe incorrect.";
             header("Location: index.php");
             exit();
@@ -52,7 +52,7 @@ function handleLogin() {
         $_SESSION['user_id'] = $user_id;
         $_SESSION['nom'] = $nom;
         $_SESSION['prenom'] = $prenom;
-        $_SESSION['success_message'] = "Connexion réussie ! Bienvenue, $prenom $nom.";
+        //$_SESSION['success_message'] = "Connexion réussie ! Bienvenue, $prenom $nom.";
         // header("Location: index.php?action=accueil");
         header('Location:' . ROOT);
         exit();
@@ -61,7 +61,7 @@ function handleLogin() {
 
 // Vérifier si l'action est "connexion"
 if (isset($_GET['action']) && $_GET['action'] === 'connexion') {
-    handleLogin();
+    fonctionConnexion();
 } else {
     // Si l'action n'est pas spécifiée ou n'est pas "connexion", rediriger vers la page de connexion
     header("Location: index.php");

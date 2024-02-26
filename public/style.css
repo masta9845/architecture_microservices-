@@ -23,7 +23,13 @@ body {
     font-weight: bold; 
     font-size: 40px; 
 }
-
+.add-button{
+    text-decoration: none;
+    text-align: center;
+    font-weight: bold; 
+    font-size: 20px; 
+    color: black;
+}
 
 .postits-container {
     display: flex;
@@ -43,12 +49,26 @@ body {
 }
 
 .postit {
-    background-color: #f9f9f9;
+   /* background-color: #f9f9f9;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 5px;*/
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    background-color: #DCF8C6; /* Couleur de fond pour les post-its propres */
+    border-radius: 10px; /* Bord arrondi */
+    padding: 10px; /* Espacement intérieur */
+    margin-bottom: 10px; /* Marge en bas */
 }
-
+.postit-pasProprio {
+    /*background-color: #2a2525;
+    color:#f0f0f0;
+    padding: 10px;
+    border-radius: 5px;*/
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    background-color: #e8e8e8; /*#e8e8e8 Couleur #ECE5DDde fond pour les post-its partagés */
+    border-radius: 10px; /* Bord arrondi */
+    padding: 10px; /* Espacement intérieur */
+    margin-bottom: 10px; /* Marge en bas */
+}
 .postit h3 {
     margin-bottom: 5px;
 }
@@ -125,11 +145,12 @@ form {
     background-color: #3e8e41;
 }
 .error {
-    color: #ff0000; /* Couleur du texte rouge */
-    background-color: #ffe6e6; /* Couleur de fond rouge f8d7da */
-    padding: 5px; /* Ajoutez un peu de marge intérieure pour un meilleur aspect */
-    border-radius: 5px; /* Coins arrondis */
-    margin-top: 5px; /* Ajoutez une petite marge en haut du message d'erreur */
+    color: #ff0000; 
+    display: inline-block;
+    background-color: #ffe6e6; 
+    padding: 5px; 
+    border-radius: 5px; 
+    margin-top: 5px; 
 }
 .success {
     color: #155724;
@@ -138,6 +159,8 @@ form {
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
+    text-align: center;
+    display: inline-block;
 }
 /* Ajustement Nav Bar */
 .logout-button {
@@ -186,22 +209,6 @@ header {
 /* Fin Ajustement Nav Bar */
 
 
-.modal {
-    background-color: #fff;
-    margin: auto;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
-    overflow-y: auto; /* Activer le défilement vertical si nécessaire */
-    max-height: 300px; /* Limite de la hauteur de la modal pour éviter un défilement excessif */
-}
-
-#modal-postit-contenu {
-    max-height: 200px; /* Limite de la hauteur du contenu pour éviter un défilement excessif */
-    overflow-y: auto; /* Activer le défilement vertical si nécessaire */
-}
-
-
 .container {
     background-color: #fff;
     margin: 0 auto;
@@ -221,3 +228,64 @@ input[type="submit"] {
     cursor: pointer;
 }
 
+/**
+gestion postits
+*/
+
+
+.container-vis-post {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.postit-vis {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.postit-vis h2 {
+    margin-top: 0;
+}
+
+.postit-vis p {
+    margin-bottom: 10px;
+}
+
+.button-group-vis {
+    margin-top: 20px;
+    display: flex; 
+    justify-content: flex-start; 
+    align-items: center;
+}
+
+.button-vis-mod,
+.button-vis-sup {
+    display: inline-block;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-vis-mod {
+    background-color: #4CAF50; 
+    color: white;
+    margin-right: 10px;
+    text-decoration: none;
+}
+
+.button-vis-sup {
+    background-color: #f44336; 
+    color: white;
+    margin-left: 10px; 
+    text-decoration: none;
+}
+
+.button-vis-mod:hover,
+.button-vis-sup:hover {
+    filter: brightness(85%);
+}

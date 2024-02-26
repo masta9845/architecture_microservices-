@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription - Gestionnaire de Post-its</title>
     <link rel="stylesheet" href="public/style.css">
+    <meta name="author" content="RUELE Amaury">
+    <meta name="author" content="CASSACA Kilian">
+    <meta name="author" content="RABHI Sofiene">
+    <meta name="author" content="Ridouane OUSMANE DOUDOU">
 </head>
 <body>
 <main>

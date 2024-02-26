@@ -15,10 +15,11 @@ $(document).ready(function () {
                 event.preventDefault();
             } else {
                 // Vérification spécifique pour le nom et prénom
-                if ((fieldName === 'nom' || fieldName === 'prenom') && !isValidName(value)) {
+               /**  if ((fieldName === 'nom' || fieldName === 'prenom') && !isValidName(value)) {
                     showError($(this), 'Le ' + fieldName + ' doit contenir au moins 5 lettres et ne doit contenir que des lettres.');
                     event.preventDefault();
-                } else if (fieldName === 'email' && !isValidEmail(value)) {
+                } else */
+                if (fieldName === 'email' && !isValidEmail(value)) {
                     showError($(this), 'Veuillez saisir une adresse email valide.');
                     event.preventDefault();
                 }else if (fieldName === 'date_naissance' && !isValidDateOfBirth(value)) {
@@ -58,9 +59,10 @@ $(document).ready(function () {
         }
     }
 
-    function isValidName(value) {
+    /**
+     * function isValidName(value) {
         return /^[a-zA-Z\s]{5,}$/.test(value);
-    }
+    }*/
 
     function isValidEmail(value) {
         // Utilisez une expression régulière appropriée pour la validation de l'email
@@ -170,3 +172,4 @@ $(document).ready(function () {
         }
     }
 });
+
