@@ -1,6 +1,7 @@
 <?php ob_start(); ?>
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
     <meta name="author" content="Ridouane OUSMANE DOUDOU">
     <link rel="stylesheet" href="public/styles.css">
 </head>
+
 <body>
     <div class="container">
         <h1>Ajouter un Post-it</h1>
@@ -25,7 +27,8 @@
             </div>
             <div class="form-group">
                 <label for="utilisateurs">Partager avec :</label><br>
-                <select id="utilisateurs" name="utilisateurs[]" multiple >
+                <input type="text" id="searchUser" placeholder="Rechercher un utilisateur">
+                <ul id="listutilisateurs" class="list-utilisateurs">
                     <?php
                     // Inclure le fichier de connexion
                     include('config.php');
@@ -46,18 +49,17 @@
                     $result = $stmt->get_result();
                     // Affichage des utilisateurs dans la liste déroulante
                     if ($result->num_rows > 0) {
-                        while($row = $result->fetch_assoc()) {
-                            print_r($row);
-                            echo "<option value='" . $row['id_utilisateur'] . "'>" . $row['prenom'] . " " . $row['nom'] . "</option>";
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<li><input type='checkbox' name='utilisateurs[]' value='" . $row['id_utilisateur'] . "'>" . $row['prenom'] . " " . $row['nom'] . "</li>";
                         }
                     } else {
-                        echo "Aucun utilisateur trouvé.";
+                        echo "<tr>Aucun utilisateur trouvé.</tr>";
                     }
 
                     // Fermeture de la connexion à la base de données
                     $conn->close();
                     ?>
-                </select>
+                </ul>
             </div>
             <div class="form-group">
                 <input type="submit" value="Ajouter">
@@ -65,9 +67,10 @@
         </form>
     </div>
 
-    <!-- Inclure jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="public/script-recherche.js"></script>
 </body>
+
 </html>
 
 <?php $content = ob_get_clean(); ?>

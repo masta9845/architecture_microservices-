@@ -1,6 +1,7 @@
 <?php
 // Fonction pour traiter le formulaire d'inscription de l'utilisateur
-function fonctionInscription() {
+function fonctionInscription()
+{
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         include('config.php'); // Inclure le fichier de connexion a la base 
         // Récupérer les données du formulaire
@@ -60,4 +61,3 @@ if (isset($_GET['action']) && $_GET['action'] === 'insert-utilisateur') {
     header("Location: index.php?action=inscription");
     exit();
 }
-?>

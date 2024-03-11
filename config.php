@@ -6,4 +6,3 @@ $dbConfig = array(
     'password' => '',
     'dbname' => 'programmation_web'
 );
-?>

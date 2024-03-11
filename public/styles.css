@@ -1,8 +1,6 @@
-/* styles.css */
-
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #f7f7f7;
     margin: 0;
     padding: 0;
 }
@@ -12,13 +10,13 @@ body {
     margin: 50px auto;
     background-color: #fff;
     padding: 20px;
-    border-radius: 5px;
+    border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
     text-align: center;
-    color: #333;
+    margin-bottom: 20px;
 }
 
 .form-group {
@@ -27,7 +25,6 @@ h1 {
 
 label {
     font-weight: bold;
-    color: #555;
 }
 
 input[type="text"],
@@ -37,47 +34,213 @@ textarea {
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
-    margin-top: 5px;
+    font-size: 16px;
 }
 
-select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-    margin-top: 5px;
+ul {
+    list-style: none;
+    padding: 0;
 }
 
-input[type="submit"] {
+ul li {
+    margin-bottom: 5px;
+}
+
+input[type="submit"],
+.button-vis-ret {
     background-color: #4CAF50;
     color: white;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
-    margin-right: 15px;
-}
-
-input[type="submit"]:hover {
-    background-color: #45a049;
-}
-
-.error-message {
-    color: red;
-    font-size: 14px;
+    text-decoration: none;
 }
 
 .button-vis-ret {
+    background-color: #ccc;
+    margin-left: 10px;
+}
+
+input[type="submit"]:hover,
+.button-vis-ret:hover {
+    background-color: #45a049;
+}
+
+
+
+/**listes des utilisateurs */
+ul.list-utilisateurs li {
+    list-style: none;
+}
+
+
+.list-utilisateurs {
+    display: block;
+}
+
+.list-utilisateurs {
+    list-style: none;
+    padding: 0;
+    max-height: 100px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.list-utilisateurs li {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.list-utilisateurs li:hover {
+    background-color: #f2f2f2;
+}
+
+/**Fin listes des utilisateurs*/
+
+
+
+/** css Visualisation post'it **/
+.button-group-vis {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.button-vis-mod,
+.button-vis-sup {
+    display: inline-block;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-vis-mod {
+    background-color: #4CAF50;
+    color: white;
+    margin-right: 10px;
     text-decoration: none;
-    background-color: #4c3f40; 
-    color: #fff; 
-    padding: 10px 20px; 
+}
+
+.button-vis-sup {
+    background-color: #f44336;
+    color: white;
+    margin-left: 10px;
+    text-decoration: none;
+}
+
+.button-vis-mod:hover,
+.button-vis-sup:hover {
+    filter: brightness(85%);
+}
+
+.pin {
+    background-color: #aaa;
+    display: block;
+    height: 32px;
+    width: 2px;
+    position: absolute;
+    left: 50%;
+    top: -16px;
+    z-index: 1;
+}
+
+.pin:after {
+    background-color: #A31;
+    background-image: radial-gradient(25% 25%, circle, hsla(0, 0%, 100%, .3), hsla(0, 0%, 0%, .3));
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px hsla(0, 0%, 0%, .1), inset 3px 3px 3px hsla(0, 0%, 100%, .2), inset -3px -3px 3px hsla(0, 0%, 0%, .2), 23px 20px 3px hsla(0, 0%, 0%, .15);
+    content: '';
+    height: 12px;
+    left: -5px;
+    position: absolute;
+    top: -10px;
+    width: 12px;
+}
+
+.pin:before {
+    background-color: hsla(0, 0%, 0%, 0.1);
+    box-shadow: 0 0 .25em hsla(0, 0%, 0%, .1);
+    content: '';
+
+    height: 24px;
+    width: 2px;
+    left: 0;
+    position: absolute;
+    top: 8px;
+
+    transform: rotate(57.5deg);
+    -moz-transform: rotate(57.5deg);
+    -webkit-transform: rotate(57.5deg);
+    -o-transform: rotate(57.5deg);
+    -ms-transform: rotate(57.5deg);
+
+    transform-origin: 50% 100%;
+    -moz-transform-origin: 50% 100%;
+    -webkit-transform-origin: 50% 100%;
+    -ms-transform-origin: 50% 100%;
+    -o-transform-origin: 50% 100%;
+}
+
+.yellow {
+    background: #eae672;
+    -webkit-transform: rotate(2deg);
+    -moz-transform: rotate(2deg);
+    -o-transform: rotate(2deg);
+    -ms-transform: rotate(2deg);
+    transform: rotate(2deg);
+}
+
+.green {
+    background: rgb(163, 235, 129);
+    -webkit-transform: rotate(2deg);
+    -moz-transform: rotate(2deg);
+    -o-transform: rotate(2deg);
+    -ms-transform: rotate(2deg);
+    transform: rotate(2deg);
+}
+
+.postit-vis {
+    border-radius: 20px;
+    color: #333;
+    position: relative;
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Satisfy;
+    font-size: 30px;
+    box-shadow: 0 10px 10px 2px rgba(0, 0, 0, 0.3);
+}
+body > div.container-vis-post > div > p:nth-child(5){
+    display: block;
+    margin: 40px 0 0 0;
+    text-align: right;
+}
+
+.container-vis-post {
+    margin-top: 50px;
+    position: relative;
+}
+
+/**Fin css Visualisation post'it **/
+
+
+/**button retour */
+.button-vis-ret {
+    text-decoration: none;
+    background-color: #4c3f40;
+    color: #fff;
+    padding: 10px 20px;
     border: none;
     border-radius: 5px;
     margin-left: 15px;
 }
-.button-vis-ret:hover{
+
+.button-vis-ret:hover {
     background-color: #787978;
 }
+

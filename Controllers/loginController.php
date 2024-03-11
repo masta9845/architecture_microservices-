@@ -1,6 +1,7 @@
 <?php
 // Fonction pour traiter le formulaire de connexion de l'utilisateur
-function fonctionConnexion() {
+function fonctionConnexion()
+{
     // Vérifier si le formulaire de connexion a été soumis
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Inclure le fichier de connexion
@@ -67,4 +68,3 @@ if (isset($_GET['action']) && $_GET['action'] === 'connexion') {
     header("Location: index.php");
     exit();
 }
-?>

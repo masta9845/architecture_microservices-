@@ -15,17 +15,17 @@ $(document).ready(function () {
                 event.preventDefault();
             } else {
                 // Vérification spécifique pour le nom et prénom
-               /**  if ((fieldName === 'nom' || fieldName === 'prenom') && !isValidName(value)) {
-                    showError($(this), 'Le ' + fieldName + ' doit contenir au moins 5 lettres et ne doit contenir que des lettres.');
-                    event.preventDefault();
-                } else */
+                /**  if ((fieldName === 'nom' || fieldName === 'prenom') && !isValidName(value)) {
+                     showError($(this), 'Le ' + fieldName + ' doit contenir au moins 5 lettres et ne doit contenir que des lettres.');
+                     event.preventDefault();
+                 } else */
                 if (fieldName === 'email' && !isValidEmail(value)) {
                     showError($(this), 'Veuillez saisir une adresse email valide.');
                     event.preventDefault();
-                }else if (fieldName === 'date_naissance' && !isValidDateOfBirth(value)) {
+                } else if (fieldName === 'date_naissance' && !isValidDateOfBirth(value)) {
                     showError($(this), 'Veuillez saisir une date de naissance valide au format AAAA/MM/JJ.');
                     event.preventDefault();
-                }else if (fieldName === 'date_naissance' && !isValidDate(value)) {
+                } else if (fieldName === 'date_naissance' && !isValidDate(value)) {
                     showError($(this), "Vous devez être âgé de 18 ans ou plus.");
                     event.preventDefault();
                 } else if (fieldName === 'password' && !isValidPassword(value)) {
@@ -50,6 +50,7 @@ $(document).ready(function () {
         }
 
         errorElement.text(message);
+        input.addClass('error-input');//champs-rouge
     }
 
     function hideError(input) {
@@ -57,12 +58,9 @@ $(document).ready(function () {
         if (errorElement.length) {
             errorElement.remove();
         }
+        input.removeClass('error-input');//champs-roue
     }
 
-    /**
-     * function isValidName(value) {
-        return /^[a-zA-Z\s]{5,}$/.test(value);
-    }*/
 
     function isValidEmail(value) {
         // Utilisez une expression régulière appropriée pour la validation de l'email
@@ -73,15 +71,15 @@ $(document).ready(function () {
     function isValidDateOfBirth(value) {
         // Format attendu : AAAA/MM/JJ
         var dateRegex = /^\d{4}\/\d{2}\/\d{2}$/;
-    
+
         return dateRegex.test(value);
     }
-    
-/**
- * Gestion de la date de naissance pour voir si l'utilisateur doit avoir 18 ans
- * @param {*} dateString 
- * @returns 
- */
+
+    /**
+     * Gestion de la date de naissance pour voir si l'utilisateur doit avoir 18 ans
+     * @param {*} dateString 
+     * @returns 
+     */
     function isValidDate(dateString) {
         // Convertir la date en objet Date
         var birthDate = new Date(dateString);
@@ -100,15 +98,15 @@ $(document).ready(function () {
         // Vérifier si l'âge est supérieur ou égal à 18 ans
         return age >= 18;
     }
-/**
- * gestion de l'expression reguliere du mot de passe on exige a ce que ca contient au moins 8 caracteres, une lettre majuscule, minuscule et un caractere special
- * @param {*} value 
- * @returns 
- */
+    /**
+     * gestion de l'expression reguliere du mot de passe on exige a ce que ca contient au moins 8 caracteres, une lettre majuscule, minuscule et un caractere special
+     * @param {*} value 
+     * @returns 
+     */
     function isValidPassword(value) {
         // Au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial
         var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{6,}$/;
-    
+
         return passwordRegex.test(value);
     }
 });
@@ -134,10 +132,7 @@ $(document).ready(function () {
                 if (fieldName === 'email' && !isValidEmail(value)) {
                     showError($(this), 'Veuillez saisir une adresse email valide.');
                     event.preventDefault();
-                }else if (fieldName === 'password' && !isValidPassword(value)) {
-                    showError($(this), 'Le mot de passe doit contenir au moins 6 caractères, une majuscule, une minuscule et un caractère spécial.');
-                    event.preventDefault();
-                }else {
+                } else {
                     hideError($(this));
                 }
             }
@@ -152,6 +147,7 @@ $(document).ready(function () {
         }
 
         errorElement.text(message);
+        input.addClass('error-input');//champs-rouge
     }
     function isValidEmail(value) {
         // Utilisez une expression régulière appropriée pour la validation de l'email
@@ -161,7 +157,7 @@ $(document).ready(function () {
     function isValidPassword(value) {
         // Au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial
         var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{6,}$/;
-    
+
         return passwordRegex.test(value);
     }
 
@@ -170,6 +166,7 @@ $(document).ready(function () {
         if (errorElement.length) {
             errorElement.remove();
         }
+        input.removeClass('error-input');//champs-roue
     }
 });
 

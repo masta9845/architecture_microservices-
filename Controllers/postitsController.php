@@ -179,7 +179,9 @@ function affichePostits($id_postit)
     include('config.php');
     $conn = new mysqli($dbConfig['host'], $dbConfig['username'], $dbConfig['password'], $dbConfig['dbname']);
     // Fonction pour récupérer les post-its possédés par l'utilisateur
-    $sql = "SELECT titre, contenu, date_creation FROM Postit WHERE id_postit = ?";
+    $sql = "SELECT P.id_owner,P.titre, P.contenu, P.date_creation, U.prenom AS owner_prenom 
+    FROM Postit AS P 
+    INNER JOIN utilisateurs AS U ON P.id_owner = U.id_utilisateur WHERE id_postit = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('i', $id_postit);
     $stmt->execute();

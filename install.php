@@ -64,3 +64,4 @@ echo 'Tables créées avec succès';
 $conn->close();
 
 ?>
+
