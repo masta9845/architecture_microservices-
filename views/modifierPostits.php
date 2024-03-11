@@ -16,6 +16,8 @@ if (isset($_SESSION['user_id'])) {
     exit();
 }
 ?>
+<link rel="stylesheet" href="public/styles.css">
+<marquee class="marque">Bienvenu.e <?= $_SESSION['prenom'] . ' ' . $_SESSION['nom'] ?></marquee>
 <div class="container">
     <h1>Modifier le Post-it</h1>
     <form id="form-postit" action="index.php?action=mod-valid-postit" method="POST">

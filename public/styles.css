@@ -244,3 +244,7 @@ body > div.container-vis-post > div > p:nth-child(5){
     background-color: #787978;
 }
 
+.marque {
+    background-color: #63003C;
+    color: #fff;
+}

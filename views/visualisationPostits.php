@@ -9,6 +9,7 @@ if (isset($_SESSION['user_id'])) {
     $id_postit = $_GET['id'];
 ?>
 <link rel="stylesheet" href="public/styles.css">
+<marquee class="marque">Bienvenu.e <?= $_SESSION['prenom'] . ' ' . $_SESSION['nom'] ?></marquee>
 <div class="container-vis-post">
     <?php if ($postit_aff[0]['id_owner'] == $userId) : ?>
         <div class="postit-vis yellow">
