@@ -1,0 +1,84 @@
+Rapport sur le Projet de Gestion de Post-its Multi-utilisateurs
+
+Introduction
+
+Le projet de gestion de post-it multi-utilisateurs vise à fournir une plateforme conviviale permettant aux utilisateurs de créer, modifier, partager et visualiser des post-it de manière collaborative. Dans le cadre de ce projet, nous adoptons le modèle MVC (Modèle-Vue-Contrôleur) pour organiser notre code de manière efficace et maintenable.
+
+Le modèle MVC est un modèle architectural couramment utilisé dans le développement d'applications web. Il divise une application en trois composants principaux : le Modèle, qui représente les données et la logique métier, la Vue, qui est responsable de l'interface utilisateur et de son affichage, et le Contrôleur, qui traite les requêtes utilisateur, interagit avec le modèle et contrôle le flux de l'application.
+
+Dans ce rapport, nous analyserons en détail les différents répertoires et fichiers du projet, en mettant en lumière les fonctionnalités et les contributions de chaque composant dans le cadre du modèle MVC.
+
+
+Fichiers à la Racine du Projet
+
+Les fichiers à la racine du projet démontrent une conception robuste et une gestion élaborée des fonctionnalités clés de l'application.
+
+1. Fichier install.php :
+   - Crée la base de données si elle n'existe pas.
+   - Établit une connexion sécurisée avec la base de données MySQL.
+   - Définit la structure des tables utilisateurs, postit et partage.
+
+2. Fichier index.php :
+   - Gère la session utilisateur et le routage des requêtes vers les contrôleurs appropriés.
+   - Contrôle les actions utilisateur telles que l'ajout, la modification et la suppression de post-its.
+
+3. Fichier config.php :
+   - Centralise les paramètres de configuration de la base de données pour une gestion organisée et maintenable.
+
+Répertoire VIEWS
+
+Le répertoire "Views" contient plusieurs fichiers définissant l'apparence et le contenu des pages web de l'application, offrant ainsi une interface utilisateur conviviale et intuitive.
+
+1. accueil.php :
+   - Offre une vue d'ensemble des post-its avec des fonctionnalités de modification et de suppression intégrées.
+
+2. ajoutpostits.php :
+   - Simplifie l'ajout de nouveaux post-its avec un formulaire intuitif et des options de partage.
+
+3. connexion.php :
+   - Propose une expérience de connexion transparente avec une gestion élégante des erreurs.
+
+4. error.php :
+   - Informe les utilisateurs des problèmes rencontrés avec clarté et simplicité.
+
+5. inscription.php :
+   - Guide les nouveaux utilisateurs à travers le processus d'inscription avec des messages informatifs.
+
+6. modifierpostit.php :
+   - Facilite la modification des post-its existants avec un formulaire pré-rempli et des options de partage.
+
+7. visualiserPostit.php :
+   - Offre une expérience immersive pour explorer les détails des post-its sélectionnés.
+
+Répertoire CONTROLLERS
+
+Le répertoire "Controllers" orchestre les interactions entre les différentes couches du système, offrant des fonctionnalités spécifiques pour la gestion des post-its.
+
+1. accueilController.php :
+   - Gère l'affichage des post-its détenus et partagés par l'utilisateur sur la page d'accueil.
+
+2. inscriptionController.php :
+   - Gère le processus d'inscription des nouveaux utilisateurs avec validation des données.
+
+3. loginController.php :
+   - Supervise l'authentification des utilisateurs pour garantir la sécurité de l'application.
+
+4. postitController.php :
+   - Gère la création, la modification, et la suppression des post-its avec une attention particulière à la sécurité.
+
+Répertoire Public
+
+Le répertoire "Public" contient des fichiers essentiels contribuant à l'expérience utilisateur et à la fonctionnalité globale de l'application.
+
+1. validation-jquery.js :
+   - Assure une validation rigoureuse des champs des formulaires d'inscription et de connexion pour renforcer la sécurité de l'application.
+
+2. script-recherche.js :
+   - Offre une fonctionnalité de recherche intuitive pour trouver rapidement les informations nécessaires.
+
+3. style.css et styles.css :
+   - Définissent les styles visuels de l'application pour une présentation cohérente et attrayante.
+
+Conclusion
+
+Le projet de gestion de post-its multi-utilisateurs a été développé avec succès en suivant le modèle MVC, offrant ainsi une structure modulaire et une expérience utilisateur fluide. Les répertoires "Views", "Controllers" et "Public" démontrent une conception réfléchie et une attention particulière à la sécurité et à la convivialité de l'application. Ce projet est positionné pour répondre aux besoins des utilisateurs et évoluer avec succès dans l'avenir.
