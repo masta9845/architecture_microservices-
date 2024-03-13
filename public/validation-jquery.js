@@ -1,5 +1,10 @@
 /**
- *DEBUT Validation des champs du formulaire d'inscription
+ *Validation des champs du formulaire d'inscription avec javascript en utilisant du jquery 
+ *on intercepte la soumission du formulaire, puis parcourt chaque champ pour :
+ *Vérifier si le champ est vide et afficher un message d'erreur approprié si c'est le cas.
+ *Valider l'email, la date de naissance(c'est un truc optionnel que nous avons ajouter en plus) et le mot de passe selon des critères spécifiques.
+ *Comparer le champ de confirmation du mot de passe avec le champ du mot de passe principal.
+ *Afficher ou masquer les messages d'erreur en fonction de la validité des données saisies.
  */
 $(document).ready(function () {
     $('#inscription-form').submit(function (event) {
@@ -14,11 +19,6 @@ $(document).ready(function () {
                 showError($(this), 'Ce champ est requis.');
                 event.preventDefault();
             } else {
-                // Vérification spécifique pour le nom et prénom
-                /**  if ((fieldName === 'nom' || fieldName === 'prenom') && !isValidName(value)) {
-                     showError($(this), 'Le ' + fieldName + ' doit contenir au moins 5 lettres et ne doit contenir que des lettres.');
-                     event.preventDefault();
-                 } else */
                 if (fieldName === 'email' && !isValidEmail(value)) {
                     showError($(this), 'Veuillez saisir une adresse email valide.');
                     event.preventDefault();
@@ -63,13 +63,10 @@ $(document).ready(function () {
 
 
     function isValidEmail(value) {
-        // Utilisez une expression régulière appropriée pour la validation de l'email
-        // Cette expression est très simple et peut ne pas couvrir tous les cas possibles
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
     }
 
     function isValidDateOfBirth(value) {
-        // Format attendu : AAAA/MM/JJ
         var dateRegex = /^\d{4}\/\d{2}\/\d{2}$/;
 
         return dateRegex.test(value);
@@ -99,12 +96,11 @@ $(document).ready(function () {
         return age >= 18;
     }
     /**
-     * gestion de l'expression reguliere du mot de passe on exige a ce que ca contient au moins 8 caracteres, une lettre majuscule, minuscule et un caractere special
+     * gestion de l'expression reguliere du mot de passe on exige a ce que ca contient au moins 6 caracteres, une lettre majuscule, minuscule et un caractere special
      * @param {*} value 
      * @returns 
      */
     function isValidPassword(value) {
-        // Au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial
         var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{6,}$/;
 
         return passwordRegex.test(value);
@@ -150,23 +146,16 @@ $(document).ready(function () {
         input.addClass('error-input');//champs-rouge
     }
     function isValidEmail(value) {
-        // Utilisez une expression régulière appropriée pour la validation de l'email
-        // Cette expression est très simple et peut ne pas couvrir tous les cas possibles
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
     }
-    function isValidPassword(value) {
-        // Au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial
-        var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{6,}$/;
-
-        return passwordRegex.test(value);
-    }
+    
 
     function hideError(input) {
         var errorElement = input.next('.error');
         if (errorElement.length) {
             errorElement.remove();
         }
-        input.removeClass('error-input');//champs-roue
+        input.removeClass('error-input');//champs-rouge
     }
 });
 

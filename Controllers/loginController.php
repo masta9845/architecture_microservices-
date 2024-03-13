@@ -27,7 +27,7 @@ function fonctionConnexion()
         }
 
         // Vérifier les informations d'identification de l'utilisateur
-        $stmt = $conn->prepare("SELECT id_utilisateur, nom, prenom, mot_de_passe FROM utilisateurs WHERE email = ?");
+        $stmt = $conn->prepare("SELECT id_utilisateur, nom, prenom, mot_de_passe FROM utilisateur WHERE email = ?");
         $stmt->bind_param('s', $email);
         $stmt->execute();
         $stmt->bind_result($user_id, $nom, $prenom, $hashed_password);

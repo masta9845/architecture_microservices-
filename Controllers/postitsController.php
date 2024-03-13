@@ -170,7 +170,8 @@ function sauvegarderModificationPostit()
 }
 
 /**
- * Fonction pour afficher un postit selectionner
+ * Fonction pour visualiser un postit selectionner
+ * on recupere d'abord les informations du post-its dont on a besoin d'afficher puis on le retourne a la vue d'afficher
  */
 function affichePostits($id_postit)
 {
@@ -181,7 +182,7 @@ function affichePostits($id_postit)
     // Fonction pour récupérer les post-its possédés par l'utilisateur
     $sql = "SELECT P.id_owner,P.titre, P.contenu, P.date_creation, U.prenom AS owner_prenom 
     FROM Postit AS P 
-    INNER JOIN utilisateurs AS U ON P.id_owner = U.id_utilisateur WHERE id_postit = ?";
+    INNER JOIN utilisateur AS U ON P.id_owner = U.id_utilisateur WHERE id_postit = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('i', $id_postit);
     $stmt->execute();
@@ -191,9 +192,7 @@ function affichePostits($id_postit)
 
 /**
  * Fonction pour supprimer un postit.
- * Avant de supprimer le postit on verifie d'abord si l'utilisateur qui essayes de proceder a la suppression est bien le createur d postit
- * Si c'est le cas on supprime le postit dans la tables partage ainsi que dans la tables partages 
- * et au cas contraire on supprime uniquement le postit dans la table partage 
+ * on supprime les partages liées au post-its dans la table partages, puis a la fin on supprime le post-its dans la tables postits
  */
 function suppPostit()
 {
@@ -213,36 +212,20 @@ function suppPostit()
         }
 
         // Vérifier si l'utilisateur est le propriétaire du post-it
-        $stmt_owner = $conn->prepare("SELECT id_owner FROM postit WHERE id_postit = ?");
-        $stmt_owner->bind_param('i', $id_postit);
-        $stmt_owner->execute();
-        $stmt_owner->bind_result($id_owner);
-        $stmt_owner->fetch();
-        $stmt_owner->close();
 
-        if ($id_user === $id_owner) {
-            // Supprimer les partages liés au post-it
-            $stmt_delete_partage = $conn->prepare("DELETE FROM Partage WHERE id_postit = ?");
-            $stmt_delete_partage->bind_param('i', $id_postit);
-            $stmt_delete_partage->execute();
-            $stmt_delete_partage->close();
+        // Supprimer les partages liés au post-it
+        $stmt_delete_partage = $conn->prepare("DELETE FROM Partage WHERE id_postit = ?");
+        $stmt_delete_partage->bind_param('i', $id_postit);
+        $stmt_delete_partage->execute();
+        $stmt_delete_partage->close();
 
-            // Supprimer le post-it
-            $stmt_delete_postit = $conn->prepare("DELETE FROM postit WHERE id_postit = ?");
-            $stmt_delete_postit->bind_param('i', $id_postit);
-            $stmt_delete_postit->execute();
-            $stmt_delete_postit->close();
+        // Supprimer le post-it
+        $stmt_delete_postit = $conn->prepare("DELETE FROM postit WHERE id_postit = ?");
+        $stmt_delete_postit->bind_param('i', $id_postit);
+        $stmt_delete_postit->execute();
+        $stmt_delete_postit->close();
 
-            $_SESSION['success_message'] = "Post-it supprimé avec succès.";
-        } else {
-            // Supprimer le partage pour l'utilisateur courant
-            $stmt_delete_partage = $conn->prepare("DELETE FROM Partage WHERE id_postit = ? AND id_user = ?");
-            $stmt_delete_partage->bind_param('ii', $id_postit, $id_user);
-            $stmt_delete_partage->execute();
-            $stmt_delete_partage->close();
-
-            $_SESSION['success_message'] = "Partage de Post-it annulé avec succès.";
-        }
+        $_SESSION['success_message'] = "Post-it supprimé avec succès.";
 
         // Rediriger vers la page d'accueil
         header('Location: index.php');
@@ -252,7 +235,7 @@ function suppPostit()
     $conn->close();
 }
 
-// Vérifier si l'action est "connexion"
+// Vérifier si l'action est une "insertion" ou une "visualisation" ou "affichage du formulaire de modification post-it" ou encore "la validation des modification effectuer sur le post-it" ou encore verifier si c'est une "suppression"
 if (isset($_GET['action']) && $_GET['action'] === 'insert-postit') {
     ajoutPostit();
 } elseif ($_GET['action'] && $_GET['action'] === 'visualiser-postits') {
@@ -283,7 +266,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'insert-postit') {
     $shared_users = json_encode(getSharedUsers($id_postit, $conn));
 
     // Requête SQL pour récupérer tous les utilisateurs
-    $sql = "SELECT id_utilisateur, nom, prenom FROM utilisateurs WHERE id_utilisateur != ?";
+    $sql = "SELECT id_utilisateur, nom, prenom FROM utilisateur WHERE id_utilisateur != ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('i', $_SESSION['user_id']);
     $stmt->execute();
@@ -301,7 +284,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'insert-postit') {
 } else if ($_GET['action'] && $_GET['action'] === 'supp-postit') {
     suppPostit();
 } else {
-    // Si l'action n'est pas spécifiée ou n'est pas "connexion", rediriger vers la page de connexion
+    // Si l'action n'est pas spécifiée rediriger vers la page de connexion
     header("Location: index.php");
     exit();
 }

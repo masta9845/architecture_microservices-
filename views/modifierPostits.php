@@ -23,11 +23,11 @@ if (isset($_SESSION['user_id'])) {
     <form id="form-postit" action="index.php?action=mod-valid-postit" method="POST">
         <div class="form-group">
             <label for="titre">Titre :</label><br>
-            <input type="text" id="titre" name="titre" value="<?= $postit_details['titre'] ?>" required><br>
+            <input type="text" id="titre" name="titre" value="<?= $postit_details['titre'] ?>" maxlength="150"><br>
         </div>
         <div class="form-group">
             <label for="contenu">Contenu :</label><br>
-            <textarea id="contenu" name="contenu" required><?= $postit_details['contenu'] ?></textarea><br>
+            <textarea id="contenu" name="contenu" ><?= $postit_details['contenu'] ?></textarea><br>
         </div>
         <div class="form-group">
             <label for="searchUser">Partager avec :</label><br>

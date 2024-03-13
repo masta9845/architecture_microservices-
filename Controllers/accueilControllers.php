@@ -26,7 +26,7 @@ function getSharedPostIts($userId, $conn)
     $sql = "SELECT P.id_postit, P.titre,P.id_owner, P.contenu,date_creation, U.nom AS owner_nom, U.prenom AS owner_prenom
             FROM Postit AS P
             INNER JOIN Partage AS PR ON P.id_postit = PR.id_postit
-            INNER JOIN utilisateurs AS U ON P.id_owner = U.id_utilisateur
+            INNER JOIN utilisateur AS U ON P.id_owner = U.id_utilisateur
             WHERE PR.id_user = ? ORDER BY date_creation DESC";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('i', $userId);

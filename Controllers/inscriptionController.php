@@ -26,7 +26,7 @@ function fonctionInscription()
         }
 
         // Vérifier si l'adresse email est déjà utilisée
-        $stmt = $conn->prepare("SELECT COUNT(*) FROM utilisateurs WHERE email = ?");
+        $stmt = $conn->prepare("SELECT COUNT(*) FROM utilisateur WHERE email = ?");
         $stmt->bind_param('s', $email);
         $stmt->execute();
         $stmt->bind_result($count);
@@ -40,7 +40,7 @@ function fonctionInscription()
         }
 
         // Insérer l'utilisateur dans la base de données
-        $stmt = $conn->prepare("INSERT INTO utilisateurs (nom, prenom, email, date_de_naissance, mot_de_passe) 
+        $stmt = $conn->prepare("INSERT INTO utilisateur (nom, prenom, email, date_de_naissance, mot_de_passe) 
                              VALUES ( ?, ?, ?, ?, ?)");
         echo $password;
         $stmt->bind_param('sssss', $nom, $prenom, $email, $date_naissance, $password);

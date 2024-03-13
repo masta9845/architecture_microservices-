@@ -4,5 +4,5 @@ $dbConfig = array(
     'host' => 'localhost',
     'username' => 'root',
     'password' => '',
-    'dbname' => 'programmation_web'
+    'dbname' => 'projet_ter_m1_miage'
 );
