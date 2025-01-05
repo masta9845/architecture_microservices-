@@ -1,12 +1,12 @@
 ﻿<?php
-$servername = 'localhost';
-$username = 'root';
-$password = '';
+$servername = 'host.docker.internal'; // Accès à la base locale depuis Docker
+$username = 'root';                  // Utilisateur MySQL
+$password = '';                      // Mot de passe MySQL
 
-//  On établit la connexion
+// Connexion à MySQL
 $conn = new mysqli($servername, $username, $password);
 
-//   On vérifie la connexion
+// Vérification de la connexion
 if ($conn->connect_error) {
     die('Erreur : ' . $conn->connect_error);
 }
@@ -20,7 +20,7 @@ if ($conn->query($sqlCreateDatabase) === TRUE) {
     die('Erreur lors de la création de la base de données : ' . $conn->error);
 }
 
-// Sélection de la base de données
+// Sélection de la base
 $conn->select_db("projet_ter_m1_miage");
 
 // Création des tables
@@ -58,10 +58,9 @@ CREATE TABLE IF NOT EXISTS Partage(
     FOREIGN KEY(id_user) REFERENCES utilisateur(id_utilisateur)
 )";
 $conn->query($sqlCreateTablePartage);
+
 echo 'Tables créées avec succès';
 
 // Fermer la connexion
 $conn->close();
-
 ?>
-

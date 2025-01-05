@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service
+  namespace: postit-projet
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-service
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+      - name: user-service
+        image: rousmane/postit-user:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8001
+        env:
+        - name: DB_HOST
+          value: mysql-service
+        - name: DB_USER
+          value: postit_user
+        - name: DB_PASS
+          value: postit_password
+        - name: DB_NAME
+          value: projet_ter_m1_miage
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service
+  namespace: postit-projet
+spec:
+  selector:
+    app: user-service
+  ports:
+  - protocol: TCP
+    port: 8001
+    targetPort: 8001

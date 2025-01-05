@@ -2,8 +2,8 @@
 <?php
 if (isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
-    $ownedPostIts = json_decode($_GET['postitPos'], true);
-    $sharedPostIts = json_decode($_GET['postitPart'], true);
+    $ownedPostIts =  $_SESSION['postitPos'];
+    $sharedPostIts = $_SESSION['postitPart'];
 ?>
 
     <marquee class="marque">Bienvenu.e <?= $_SESSION['prenom'] . ' ' . $_SESSION['nom'] ?></marquee>

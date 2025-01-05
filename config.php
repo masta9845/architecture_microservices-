@@ -6,3 +6,5 @@ $dbConfig = array(
     'password' => '',
     'dbname' => 'projet_ter_m1_miage'
 );
+
+
