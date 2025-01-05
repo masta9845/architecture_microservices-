@@ -5,7 +5,13 @@ metadata:
   namespace: postit-projet
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
+  tls:
+  - hosts:
+    - postit.local
+    secretName: postit-tls
   rules:
   - host: postit.local
     http:
