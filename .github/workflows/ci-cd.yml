@@ -20,24 +20,24 @@ jobs:
     - name: Log in to Docker Hub
       uses: docker/login-action@v2
       with:
-        username: ${{ secrets.DOCKER_USERNAME }}
+        username: ${{ secrets.ROUSMANE  }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     # Construire et pousser l'image pour chaque service
     - name: Build and push front-service Docker image
       run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/front-service:latest ./front-service
-        docker push ${{ secrets.DOCKER_USERNAME }}/front-service:latest
+        docker build -t ${{ secrets.ROUSMANE  }}/front-service:latest ./front-service
+        docker push ${{ secrets.ROUSMANE  }}/front-service:latest
 
     - name: Build and push user-service Docker image
       run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/user-service:latest ./user-service
-        docker push ${{ secrets.DOCKER_USERNAME }}/user-service:latest
+        docker build -t ${{ secrets.ROUSMANE  }}/user-service:latest ./user-service
+        docker push ${{ secrets.ROUSMANE  }}/user-service:latest
 
     - name: Build and push postit-service Docker image
       run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/postit-service:latest ./postit-service
-        docker push ${{ secrets.DOCKER_USERNAME }}/postit-service:latest
+        docker build -t ${{ secrets.ROUSMANE  }}/postit-service:latest ./postit-service
+        docker push ${{ secrets.ROUSMANE  }}/postit-service:latest
 
   deploy-k8s:
     name: Deploy to Kubernetes
