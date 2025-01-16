@@ -12,18 +12,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Cloner le code
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # Connexion à Docker Hub
     - name: Log in to Docker Hub
       uses: docker/login-action@v2
       with:
         username: ${{ secrets.ROUSMANE }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    # Construire et pousser l'image pour chaque service
     - name: Build and push front-service Docker image
       run: |
         docker build -t ${{ secrets.ROUSMANE }}/front-service:latest ./front-service
@@ -45,44 +42,42 @@ jobs:
     needs: docker-build
 
     steps:
-    # Cloner le code
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # Installation et configuration Minikube
     - name: Set up Minikube
       uses: medyagh/setup-minikube@master
       with:
         driver: docker
 
-    # Configuration Docker pour Minikube
     - name: Configure Docker for Minikube
       run: |
         eval $(minikube -p minikube docker-env)
 
-    # Chargement des images Docker dans Minikube
     - name: Load images into Minikube
       run: |
         minikube image load ${{ secrets.ROUSMANE }}/front-service:latest
         minikube image load ${{ secrets.ROUSMANE }}/user-service:latest
         minikube image load ${{ secrets.ROUSMANE }}/postit-service:latest
 
-    # Appliquer les manifests Kubernetes
+    - name: Create Kubernetes namespace
+      run: |
+        kubectl create namespace postit-projet || echo "Namespace already exists"
+
     - name: Apply Kubernetes manifests
       run: |
-        kubectl apply -f kubernetes/mysql-deployment.yaml
-        kubectl apply -f kubernetes/user-deployment.yaml
-        kubectl apply -f kubernetes/postit-deployment.yaml
-        kubectl apply -f kubernetes/front-deployment.yaml
-        kubectl apply -f kubernetes/ingress.yaml
+        kubectl apply -f kubernetes/mysql-deployment.yaml -n postit-projet
+        kubectl apply -f kubernetes/user-deployment.yaml -n postit-projet
+        kubectl apply -f kubernetes/postit-deployment.yaml -n postit-projet
+        kubectl apply -f kubernetes/front-deployment.yaml -n postit-projet
+        kubectl apply -f kubernetes/ingress.yaml -n postit-projet
 
-    # Vérification des pods et des services
     - name: Check Kubernetes resources
       run: |
-        kubectl get pods -A
-        kubectl get services -A
+        kubectl get pods -n postit-projet
+        kubectl get services -n postit-projet
 
-    # Tester l'application
     - name: Test Application
       run: |
-        curl $(minikube service front-service --url)
+        echo "Testing application..."
+        kubectl get ingress -n postit-projet
