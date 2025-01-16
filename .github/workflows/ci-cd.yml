@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: CI/CD Pipeline with Minikube
 
 on:
   push:
@@ -20,40 +20,52 @@ jobs:
     - name: Log in to Docker Hub
       uses: docker/login-action@v2
       with:
-        username: ${{ secrets.ROUSMANE  }}
+        username: ${{ secrets.ROUSMANE }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     # Construire et pousser l'image pour chaque service
     - name: Build and push front-service Docker image
       run: |
-        docker build -t ${{ secrets.ROUSMANE  }}/front-service:latest ./front-service
-        docker push ${{ secrets.ROUSMANE  }}/front-service:latest
+        docker build -t ${{ secrets.ROUSMANE }}/front-service:latest ./front-service
+        docker push ${{ secrets.ROUSMANE }}/front-service:latest
 
     - name: Build and push user-service Docker image
       run: |
-        docker build -t ${{ secrets.ROUSMANE  }}/user-service:latest ./user-service
-        docker push ${{ secrets.ROUSMANE  }}/user-service:latest
+        docker build -t ${{ secrets.ROUSMANE }}/user-service:latest ./user-service
+        docker push ${{ secrets.ROUSMANE }}/user-service:latest
 
     - name: Build and push postit-service Docker image
       run: |
-        docker build -t ${{ secrets.ROUSMANE  }}/postit-service:latest ./postit-service
-        docker push ${{ secrets.ROUSMANE  }}/postit-service:latest
+        docker build -t ${{ secrets.ROUSMANE }}/postit-service:latest ./postit-service
+        docker push ${{ secrets.ROUSMANE }}/postit-service:latest
 
-  deploy-k8s:
-    name: Deploy to Kubernetes
+  deploy-minikube:
+    name: Deploy to Minikube
     runs-on: ubuntu-latest
     needs: docker-build
-    if: github.ref == 'refs/heads/main'
 
     steps:
+    # Cloner le code
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # Configurer kubectl avec KUBECONFIG
-    - name: Set up kubectl
+    # Installation et configuration Minikube
+    - name: Set up Minikube
+      uses: medyagh/setup-minikube@master
+      with:
+        driver: docker
+
+    # Configuration Docker pour Minikube
+    - name: Configure Docker for Minikube
       run: |
-        mkdir -p $HOME/.kube
-        echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
+        eval $(minikube -p minikube docker-env)
+
+    # Chargement des images Docker dans Minikube
+    - name: Load images into Minikube
+      run: |
+        minikube image load ${{ secrets.ROUSMANE }}/front-service:latest
+        minikube image load ${{ secrets.ROUSMANE }}/user-service:latest
+        minikube image load ${{ secrets.ROUSMANE }}/postit-service:latest
 
     # Appliquer les manifests Kubernetes
     - name: Apply Kubernetes manifests
@@ -63,3 +75,14 @@ jobs:
         kubectl apply -f kubernetes/postit-deployment.yaml
         kubectl apply -f kubernetes/front-deployment.yaml
         kubectl apply -f kubernetes/ingress.yaml
+
+    # Vérification des pods et des services
+    - name: Check Kubernetes resources
+      run: |
+        kubectl get pods -A
+        kubectl get services -A
+
+    # Tester l'application
+    - name: Test Application
+      run: |
+        curl $(minikube service front-service --url)
